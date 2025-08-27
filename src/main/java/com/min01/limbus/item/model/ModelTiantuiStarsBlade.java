@@ -3,6 +3,7 @@ package com.min01.limbus.item.model;
 import java.util.List;
 
 import com.min01.limbus.LimbusCompany;
+import com.min01.limbus.item.TiantuiStarsBladeItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -17,6 +18,7 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 public class ModelTiantuiStarsBlade extends Model
 {
@@ -94,13 +96,17 @@ public class ModelTiantuiStarsBlade extends Model
 
 		return LayerDefinition.create(meshdefinition, 256, 256);
 	}
+	
+	public void setupAnim(ItemStack stack)
+	{
+		this.Slash.visible = TiantuiStarsBladeItem.isShiftActive(stack) && TiantuiStarsBladeItem.isSavage(stack);
+		this.Slash2.visible = TiantuiStarsBladeItem.isShiftActive(stack) && !TiantuiStarsBladeItem.isSavage(stack);
+		this.flameParts.forEach(t -> t.visible = TiantuiStarsBladeItem.isActive(stack));
+	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) 
 	{
-		this.Slash.visible = false;
-		this.Slash2.visible = false;
-		this.flameParts.forEach(t -> t.visible = false);
 		sowrd.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 }

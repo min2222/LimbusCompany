@@ -9,6 +9,7 @@ import com.min01.limbus.item.model.ModelTiantuiStarsBlade;
 import com.min01.limbus.util.LimbusClientUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
@@ -23,7 +24,7 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 {
 	public final ModelTiantuiStarsBlade bladeModel;
 	
-	public final Map<ItemStack, Integer> frameMap = new HashMap<>();
+	public static final Map<ItemStack, Integer> FRAME_MAP = new HashMap<>();
 	
 	public LimbusItemRenderer(EntityModelSet modelSet)
 	{
@@ -36,33 +37,64 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 	{
 		if(p_108830_.getItem() instanceof TiantuiStarsBladeItem)
 		{
-			if(!this.frameMap.containsKey(p_108830_))
+			if(!FRAME_MAP.containsKey(p_108830_))
 			{
-				this.frameMap.put(p_108830_, 0);
+				FRAME_MAP.put(p_108830_, 0);
 			}
 			else
 			{
-				int frame = this.frameMap.get(p_108830_);
-				if(frame >= 5)
+				int frame = FRAME_MAP.get(p_108830_);
+				if(LimbusClientUtil.MC.player.tickCount % 3 == 0)
 				{
-					this.frameMap.put(p_108830_, 0);
-				}
-				else
-				{
-					this.frameMap.put(p_108830_, frame + 1);
+				    frame = (frame + 1) % 4;
+				    FRAME_MAP.put(p_108830_, frame);
 				}
 			}
 			p_108832_.pushPose();
 			VertexConsumer consumer = p_108833_.getBuffer(RenderType.entityCutoutNoCull(this.getTexture(p_108830_)));
 			p_108832_.scale(-1.0F, -1.0F, 1.0F);
 			p_108832_.translate(0.0F, -1.5F, 0.0F);
+			this.setupDisplay(p_108831_, p_108832_);
+			this.bladeModel.setupAnim(p_108830_);
 			this.bladeModel.renderToBuffer(p_108832_, consumer, p_108834_, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
 			p_108832_.popPose();
 		}
 	}
 	
+	public void setupDisplay(ItemDisplayContext ctx, PoseStack stack)
+	{
+		if(ctx == ItemDisplayContext.GUI)
+		{
+			stack.translate(0.0, 0.5, -0.5);
+			stack.mulPose(Axis.YP.rotationDegrees(90.0F));
+			stack.mulPose(Axis.XP.rotationDegrees(-45.0F));
+			stack.scale(0.5F, 0.5F, 0.5F);
+		}
+		if(ctx == ItemDisplayContext.FIXED || ctx == ItemDisplayContext.GROUND)
+		{
+			stack.translate(-1.0, 0.5, 0.5);
+			stack.mulPose(Axis.YP.rotationDegrees(-90.0F));
+			stack.mulPose(Axis.XP.rotationDegrees(-45.0F));
+			stack.scale(0.5F, 0.5F, 0.5F);
+		}
+		if(ctx == ItemDisplayContext.HEAD)
+		{
+			stack.translate(-0.5, -0.5, -1.0);
+		}
+		if(ctx == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || ctx == ItemDisplayContext.THIRD_PERSON_LEFT_HAND)
+		{
+			stack.translate(-0.5, 0.5, 2.0);
+			stack.mulPose(Axis.XP.rotationDegrees(-95.0F));
+		}
+		if(ctx == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND || ctx == ItemDisplayContext.FIRST_PERSON_LEFT_HAND)
+		{
+			stack.translate(-0.5, 1.0, 2.0);
+			stack.mulPose(Axis.XP.rotationDegrees(-105.0F));
+		}
+	}
+	
 	public ResourceLocation getTexture(ItemStack stack)
 	{
-		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, this.frameMap.getOrDefault(stack, 0)));
+		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, FRAME_MAP.get(stack)));
 	}
 }
