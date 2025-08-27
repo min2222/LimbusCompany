@@ -1,0 +1,12 @@
+{
+	"itemGroup.limbuscompany": "Limbus Company",
+	"entity.limbuscompany.petrified": "Lei Heng",
+	"item.limbuscompany.tigermark_round": "Tigermark Round",
+	"item.limbuscompany.savage_tigermark_round": "Savage Tigermark Round",
+	"item.limbuscompany.tiantui_stars_blade": "Tiantui Star’s Blade",
+	"effect.limbuscompany.tremor": "Tremor",
+	"effect.limbuscompany.tremor.description": "Tremor",
+	"effect.limbuscompany.tremor_scorch": "Tremor-Scorch",
+	"effect.limbuscompany.tremor_scorch.description": "Tremor-Scorch",
+	"death.attack.tremor_scorch": "%1$s died by tremor-scorch"
+}
