@@ -224,6 +224,18 @@ public class TiantuiStarsBladeItem extends SwordItem
 		return newStack.getItem() != this;
 	}
 	
+    public static int getFrame(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt("Frame") : 0;
+    }
+
+    public static void setFrame(ItemStack stack, int frame)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("Frame", frame);
+    }
+	
     public static boolean isSavage(ItemStack stack)
     {
         CompoundTag tag = stack.getTag();

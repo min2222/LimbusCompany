@@ -1,8 +1,5 @@
 package com.min01.limbus.item.renderer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.min01.limbus.LimbusCompany;
 import com.min01.limbus.item.TiantuiStarsBladeItem;
 import com.min01.limbus.item.model.ModelTiantuiStarsBlade;
@@ -24,8 +21,6 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 {
 	public final ModelTiantuiStarsBlade bladeModel;
 	
-	public static final Map<ItemStack, Integer> FRAME_MAP = new HashMap<>();
-	
 	public LimbusItemRenderer(EntityModelSet modelSet)
 	{
 		super(LimbusClientUtil.MC.getBlockEntityRenderDispatcher(), modelSet);
@@ -37,17 +32,16 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 	{
 		if(p_108830_.getItem() instanceof TiantuiStarsBladeItem)
 		{
-			if(!FRAME_MAP.containsKey(p_108830_))
+			if(TiantuiStarsBladeItem.isActive(p_108830_))
 			{
-				FRAME_MAP.put(p_108830_, 0);
-			}
-			else
-			{
-				int frame = FRAME_MAP.get(p_108830_);
-				if(LimbusClientUtil.MC.player.tickCount % 3 == 0)
+				int frame = TiantuiStarsBladeItem.getFrame(p_108830_);
+				if(LimbusClientUtil.MC.player.tickCount % 4 == 0)
 				{
-				    frame = (frame + 1) % 4;
-				    FRAME_MAP.put(p_108830_, frame);
+					TiantuiStarsBladeItem.setFrame(p_108830_, frame + 1);
+				}
+				if(frame > 2)
+				{
+					TiantuiStarsBladeItem.setFrame(p_108830_, 0);
 				}
 			}
 			p_108832_.pushPose();
@@ -95,6 +89,6 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 	
 	public ResourceLocation getTexture(ItemStack stack)
 	{
-		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, FRAME_MAP.get(stack)));
+		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, TiantuiStarsBladeItem.getFrame(stack)));
 	}
 }
