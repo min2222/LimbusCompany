@@ -219,6 +219,12 @@ public class TiantuiStarsBladeItem extends SwordItem
 	}
 	
 	@Override
+	public boolean canBeDepleted() 
+	{
+		return false;
+	}
+	
+	@Override
 	public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) 
 	{
 		return newStack.getItem() != this;
