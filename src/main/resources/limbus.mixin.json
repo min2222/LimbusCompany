@@ -4,6 +4,7 @@
 	"package": "com.min01.limbus.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
+		"MixinResource"
 	],
 	"client": [
 		"MixinKeyMapping"

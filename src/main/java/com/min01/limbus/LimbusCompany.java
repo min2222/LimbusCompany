@@ -1,11 +1,8 @@
 package com.min01.limbus;
 
-import java.io.IOException;
-
 import com.min01.limbus.effect.LimbusEffects;
 import com.min01.limbus.item.LimbusItems;
 import com.min01.limbus.misc.LimbusCreativeTabs;
-import com.min01.limbusdep.LimbusUtil;
 
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -22,14 +19,5 @@ public class LimbusCompany
 		LimbusItems.ITEMS.register(bus);
 		LimbusCreativeTabs.CREATIVE_MODE_TAB.register(bus);
 		LimbusEffects.EFFECTS.register(bus);
-		
-		try 
-		{
-			LimbusUtil.load("limbuscompany");
-		}
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
 	}
 }
