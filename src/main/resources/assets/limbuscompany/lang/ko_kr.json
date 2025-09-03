@@ -8,5 +8,11 @@
 	"effect.limbuscompany.tremor.description": "진동",
 	"effect.limbuscompany.tremor_scorch": "진동-작열",
 	"effect.limbuscompany.tremor_scorch.description": "진동-작열",
+	"effect.limbuscompany.unrelenting_spirit": "강기 [剛氣]",
+	"effect.limbuscompany.unrelenting_spirit.description": "강기 [剛氣]",
+	"effect.limbuscompany.unrelenting_spirit_shin": "강기-신 [剛氣-心]",
+	"effect.limbuscompany.unrelenting_spirit_shin.description": "강기-신 [剛氣-心]",
+	"effect.limbuscompany.overheat": "오버히트",
+	"effect.limbuscompany.overheat.description": "오버히트",
 	"death.attack.tremor_scorch": "%1$s(이)가 진동-작열에 의해 사망했습니다."
 }

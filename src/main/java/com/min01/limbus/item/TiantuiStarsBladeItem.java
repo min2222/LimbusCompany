@@ -66,6 +66,7 @@ public class TiantuiStarsBladeItem extends SwordItem
             	p_41433_.getCooldowns().addCooldown(this, 20);
             	setActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
+            	setConsumed(stack, getConsumed(stack) + 1);
     			return InteractionResultHolder.consume(stack);
         	}
         	else if(ammo.getCount() >= 6)
@@ -78,10 +79,49 @@ public class TiantuiStarsBladeItem extends SwordItem
             	p_41433_.getCooldowns().addCooldown(this, 200);
             	setShiftActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
+            	setConsumed(stack, getConsumed(stack) + 6);
     			return InteractionResultHolder.consume(stack);
         	}
 		}
 		return super.use(p_41432_, p_41433_, p_41434_);
+	}
+	
+	@Override
+	public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex)
+	{
+		super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+    	if(getConsumed(stack) >= 8 && getBuffLevel(stack) == 0)
+    	{
+    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+    		setBuffLevel(stack, 1);
+    	}
+    	if(getConsumed(stack) >= 96 && getBuffLevel(stack) == 1)
+    	{
+    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
+    		setBuffLevel(stack, 2);
+    	}
+		if(!player.getInventory().hasAnyMatching(AMMO.or(AMMO2)))
+		{
+			if(isUsed(stack))
+			{
+				player.addEffect(new MobEffectInstance(LimbusEffects.OVERHEAT.get(), 20, 0));
+			}
+		}
+		else if(player.hasEffect(LimbusEffects.OVERHEAT.get()))
+		{
+			player.removeEffect(LimbusEffects.OVERHEAT.get());
+		}
+		if(slotIndex == selectedIndex)
+		{
+	      	if(getConsumed(stack) >= 80 && getBuffLevel(stack) == 1)
+	    	{
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+	    	}
+	      	if(getConsumed(stack) >= 96 + 80 && getBuffLevel(stack) == 2)
+	    	{
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
+	    	}
+		}
 	}
 	
 	@Override
@@ -176,9 +216,11 @@ public class TiantuiStarsBladeItem extends SwordItem
 			p_43279_.setSecondsOnFire(fireSecond);
 			setActive(p_43278_, false);
 			setSavage(p_43278_, false);
+			setUsed(p_43278_, true);
 		}
 		else if(isShiftActive(p_43278_))
 		{
+			//TODO armor ignore LivingEntity#getDamageAfterArmorAbsorb
 			if(isSavage(p_43278_))
 			{
 				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(4), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
@@ -201,6 +243,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 			}
 			setShiftActive(p_43278_, false);
 			setSavage(p_43278_, false);
+			setUsed(p_43278_, true);
 		}
 		return super.hurtEnemy(p_43278_, p_43279_, p_43280_);
 	}
@@ -229,6 +272,42 @@ public class TiantuiStarsBladeItem extends SwordItem
 	{
 		return newStack.getItem() != this;
 	}
+	
+    public static int getBuffLevel(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt("BuffLevel") : 0;
+    }
+
+    public static void setBuffLevel(ItemStack stack, int buffLevel)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("BuffLevel", buffLevel);
+    }
+	
+    public static int getConsumed(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt("Consumed") : 0;
+    }
+
+    public static void setConsumed(ItemStack stack, int consumed)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("Consumed", consumed);
+    }
+	
+    public static boolean isUsed(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getBoolean("isUsed") : false;
+    }
+
+    public static void setUsed(ItemStack stack, boolean used)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putBoolean("isUsed", used);
+    }
 	
     public static int getFrame(ItemStack stack)
     {

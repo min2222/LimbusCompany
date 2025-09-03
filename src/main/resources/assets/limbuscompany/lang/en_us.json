@@ -8,5 +8,11 @@
 	"effect.limbuscompany.tremor.description": "Tremor",
 	"effect.limbuscompany.tremor_scorch": "Tremor-Scorch",
 	"effect.limbuscompany.tremor_scorch.description": "Tremor-Scorch",
+	"effect.limbuscompany.unrelenting_spirit": "Unrelenting Spirit",
+	"effect.limbuscompany.unrelenting_spirit.description": "Unrelenting Spirit",
+	"effect.limbuscompany.unrelenting_spirit_shin": "Unrelenting Spirit - Shin",
+	"effect.limbuscompany.unrelenting_spirit_shin.description": "Unrelenting Spirit - Shin",
+	"effect.limbuscompany.overheat": "Overheat",
+	"effect.limbuscompany.overheat.description": "Overheat",
 	"death.attack.tremor_scorch": "%1$s died by tremor-scorch"
 }

@@ -13,4 +13,9 @@ public class LimbusEffects
 	
 	public static final RegistryObject<MobEffect> TREMOR = EFFECTS.register("tremor", () -> new TremorEffect());
 	public static final RegistryObject<MobEffect> TREMOR_SCORCH = EFFECTS.register("tremor_scorch", () -> new TremorScorchEffect());
+	
+	public static final RegistryObject<MobEffect> UNRELENTING_SPIRIT = EFFECTS.register("unrelenting_spirit", () -> new UnrelentingSpiritEffect());
+	public static final RegistryObject<MobEffect> UNRELENTING_SPIRIT_SHIN = EFFECTS.register("unrelenting_spirit_shin", () -> new UnrelentingSpiritShinEffect());
+	
+	public static final RegistryObject<MobEffect> OVERHEAT = EFFECTS.register("overheat", () -> new OverheatEffect());
 }
