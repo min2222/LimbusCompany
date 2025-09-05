@@ -27,7 +27,7 @@ public class TremorScorchEffect extends MobEffect
 		p_19467_.zza = 0.0F;
 		if(p_19467_.tickCount % 20 == 0)
 		{
-			p_19467_.hurt(LimbusDamageSource.causeTremorScorchDamage(p_19467_.level.registryAccess()), 2.0F);
+			p_19467_.hurt(LimbusDamageSource.causeTremorScorchDamage(p_19467_.level.registryAccess()), 3.0F);
 		}
 	}
 	

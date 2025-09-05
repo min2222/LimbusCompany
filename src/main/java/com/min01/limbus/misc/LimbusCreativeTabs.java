@@ -16,7 +16,7 @@ public class LimbusCreativeTabs
 
     public static final RegistryObject<CreativeModeTab> LIMBUS_COMPANY = CREATIVE_MODE_TAB.register("limbuscompany", () -> CreativeModeTab.builder()
     		.title(Component.translatable("itemGroup.limbuscompany"))
-    		.icon(() -> new ItemStack(LimbusItems.TIGERMARK_ROUND.get()))
+    		.icon(() -> new ItemStack(LimbusItems.LOGO.get()))
     		.displayItems((enabledFeatures, output) -> 
     		{
     			output.accept(LimbusItems.TIGERMARK_ROUND.get());

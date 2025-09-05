@@ -32,18 +32,6 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 	{
 		if(p_108830_.getItem() instanceof TiantuiStarsBladeItem)
 		{
-			if(TiantuiStarsBladeItem.isActive(p_108830_))
-			{
-				int frame = TiantuiStarsBladeItem.getFrame(p_108830_);
-				if(LimbusClientUtil.MC.player.tickCount % 4 == 0)
-				{
-					TiantuiStarsBladeItem.setFrame(p_108830_, frame + 1);
-				}
-				if(frame > 2)
-				{
-					TiantuiStarsBladeItem.setFrame(p_108830_, 0);
-				}
-			}
 			p_108832_.pushPose();
 			VertexConsumer consumer = p_108833_.getBuffer(RenderType.entityCutoutNoCull(this.getTexture(p_108830_)));
 			p_108832_.scale(-1.0F, -1.0F, 1.0F);
@@ -89,6 +77,6 @@ public class LimbusItemRenderer extends BlockEntityWithoutLevelRenderer
 	
 	public ResourceLocation getTexture(ItemStack stack)
 	{
-		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, TiantuiStarsBladeItem.getFrame(stack)));
+		return new ResourceLocation(String.format("%s:textures/item/tiantui_stars_blade%d.png", LimbusCompany.MODID, LimbusClientUtil.MC.player.tickCount % 4));
 	}
 }

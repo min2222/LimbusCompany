@@ -1,0 +1,18 @@
+{
+	"reload": {
+		"sounds": [
+			"limbuscompany:reload_1",
+			"limbuscompany:reload_2",
+			"limbuscompany:reload_3",
+			"limbuscompany:reload_4"
+		]
+	},
+	"shift_active": {
+		"sounds": [
+			{
+				"name": "limbuscompany:shift_active",
+				"stream": true
+			}
+		]
+	}
+}

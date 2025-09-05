@@ -17,6 +17,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class LimbusItems
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, LimbusCompany.MODID);
+
+	public static final RegistryObject<Item> LOGO = ITEMS.register("logo", () -> new Item(new Item.Properties()));
 	
 	public static final RegistryObject<Item> TIGERMARK_ROUND = ITEMS.register("tigermark_round", () -> new Item(new Item.Properties()));
 	public static final RegistryObject<Item> SAVAGE_TIGERMARK_ROUND = ITEMS.register("savage_tigermark_round", () -> new Item(new Item.Properties()));

@@ -4,6 +4,8 @@ import com.min01.limbus.LimbusCompany;
 import com.min01.limbus.effect.LimbusEffects;
 import com.min01.limbus.util.LimbusUtil;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -33,9 +35,23 @@ public class EventHandlerForge
 			}
 			if(event.getEntity().hasEffect(LimbusEffects.OVERHEAT.get()))
 			{
-				percent += 10.0F;
+				percent += 10.0F * (LimbusUtil.percent(event.getEntity().getMaxHealth() - event.getEntity().getHealth(), 10.0F));
+				percent = Math.min(percent, 50.0F);
 			}
 			event.setAmount(event.getAmount() - LimbusUtil.percent(event.getAmount(), percent));
+		}
+		if(event.getSource().getDirectEntity() != null)
+		{
+			Entity attacker = event.getSource().getDirectEntity();
+			if(attacker instanceof LivingEntity living)
+			{
+				if(living.hasEffect(LimbusEffects.OVERHEAT.get()))
+				{
+					float percent = 75.0F + (LimbusUtil.getPercentage(living.getMaxHealth(), living.getMaxHealth() - living.getHealth()));
+					percent = Math.min(percent, 150.0F);
+					event.setAmount(event.getAmount() + LimbusUtil.percent(event.getAmount(), percent));
+				}
+			}
 		}
 	}
 }

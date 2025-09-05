@@ -9,11 +9,11 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.min01.limbus.effect.LimbusEffects;
 import com.min01.limbus.item.renderer.LimbusItemRenderer;
+import com.min01.limbus.sound.LimbusSounds;
 import com.min01.limbus.util.LimbusClientUtil;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -62,7 +62,7 @@ public class TiantuiStarsBladeItem extends SwordItem
             	{
                 	ammo.shrink(1);
             	}
-            	p_41433_.playSound(SoundEvents.FIRECHARGE_USE);
+            	p_41433_.playSound(LimbusSounds.RELOAD.get());
             	p_41433_.getCooldowns().addCooldown(this, 20);
             	setActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
@@ -75,7 +75,7 @@ public class TiantuiStarsBladeItem extends SwordItem
             	{
                 	ammo.shrink(6);
             	}
-            	p_41433_.playSound(SoundEvents.FIRECHARGE_USE);
+            	p_41433_.playSound(LimbusSounds.SHIFT_ACTIVE.get());
             	p_41433_.getCooldowns().addCooldown(this, 200);
             	setShiftActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
@@ -95,7 +95,7 @@ public class TiantuiStarsBladeItem extends SwordItem
     		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
     		setBuffLevel(stack, 1);
     	}
-    	if(getConsumed(stack) >= 96 && getBuffLevel(stack) == 1)
+    	if(getConsumed(stack) >= 160 + 16 && getBuffLevel(stack) == 1)
     	{
     		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
     		setBuffLevel(stack, 2);
@@ -110,10 +110,10 @@ public class TiantuiStarsBladeItem extends SwordItem
 		else
 		{
 			setUsed(stack, false);
-			 if(player.hasEffect(LimbusEffects.OVERHEAT.get()))
-			 {
-				 player.removeEffect(LimbusEffects.OVERHEAT.get());
-			 }
+			if(player.hasEffect(LimbusEffects.OVERHEAT.get()))
+			{
+				player.removeEffect(LimbusEffects.OVERHEAT.get());
+			}
 		}
 		if(slotIndex == selectedIndex)
 		{
@@ -121,7 +121,14 @@ public class TiantuiStarsBladeItem extends SwordItem
 	    	{
 	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
 	    	}
-	      	if(getConsumed(stack) >= 96 + 80 && getBuffLevel(stack) == 2)
+		}
+		else
+		{
+	      	if(getConsumed(stack) >= 160 && getBuffLevel(stack) == 1)
+	    	{
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+	    	}
+	      	if(getConsumed(stack) >= 160 + 160 && getBuffLevel(stack) == 2)
 	    	{
 	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
 	    	}
@@ -227,10 +234,11 @@ public class TiantuiStarsBladeItem extends SwordItem
 			//TODO armor ignore LivingEntity#getDamageAfterArmorAbsorb
 			if(isSavage(p_43278_))
 			{
-				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(4), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
+				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(5.0), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
 				list.forEach(t -> 
 				{
-					t.setSecondsOnFire(8);
+					t.level.levelEvent(2008, t.blockPosition(), 0);
+					t.setSecondsOnFire(10);
 					t.addEffect(new MobEffectInstance(LimbusEffects.TREMOR_SCORCH.get(), 60));
 					p_43280_.doHurtTarget(t);
 				});
@@ -240,6 +248,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(2.5F), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
 				list.forEach(t -> 
 				{
+					t.level.levelEvent(2008, t.blockPosition(), 0);
 					t.setSecondsOnFire(6);
 					t.addEffect(new MobEffectInstance(LimbusEffects.TREMOR.get(), 40));
 					p_43280_.doHurtTarget(t);
@@ -311,18 +320,6 @@ public class TiantuiStarsBladeItem extends SwordItem
     {
         CompoundTag tag = stack.getOrCreateTag();
         tag.putBoolean("isUsed", used);
-    }
-	
-    public static int getFrame(ItemStack stack)
-    {
-        CompoundTag tag = stack.getTag();
-        return tag != null ? tag.getInt("Frame") : 0;
-    }
-
-    public static void setFrame(ItemStack stack, int frame)
-    {
-        CompoundTag tag = stack.getOrCreateTag();
-        tag.putInt("Frame", frame);
     }
 	
     public static boolean isSavage(ItemStack stack)
