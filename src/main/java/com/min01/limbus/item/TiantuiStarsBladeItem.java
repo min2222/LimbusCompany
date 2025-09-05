@@ -107,9 +107,13 @@ public class TiantuiStarsBladeItem extends SwordItem
 				player.addEffect(new MobEffectInstance(LimbusEffects.OVERHEAT.get(), 20, 0));
 			}
 		}
-		else if(player.hasEffect(LimbusEffects.OVERHEAT.get()))
+		else
 		{
-			player.removeEffect(LimbusEffects.OVERHEAT.get());
+			setUsed(stack, false);
+			 if(player.hasEffect(LimbusEffects.OVERHEAT.get()))
+			 {
+				 player.removeEffect(LimbusEffects.OVERHEAT.get());
+			 }
 		}
 		if(slotIndex == selectedIndex)
 		{
