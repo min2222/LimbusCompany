@@ -2,6 +2,7 @@ package com.min01.limbus.item;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -31,6 +32,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.common.ForgeMod;
 
 public class TiantuiStarsBladeItem extends SwordItem
 {
@@ -56,13 +58,13 @@ public class TiantuiStarsBladeItem extends SwordItem
         ItemStack ammo = this.findAmmo(p_41433_);
         if(!ammo.isEmpty() && !isActive(stack) && !isShiftActive(stack))
         {
+        	p_41433_.playSound(LimbusSounds.RELOAD.get());
         	if(!p_41433_.isShiftKeyDown())
         	{
             	if(!p_41433_.getAbilities().instabuild)
             	{
                 	ammo.shrink(1);
             	}
-            	p_41433_.playSound(LimbusSounds.RELOAD.get());
             	p_41433_.getCooldowns().addCooldown(this, 20);
             	setActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
@@ -75,7 +77,6 @@ public class TiantuiStarsBladeItem extends SwordItem
             	{
                 	ammo.shrink(6);
             	}
-            	p_41433_.playSound(LimbusSounds.SHIFT_ACTIVE.get());
             	p_41433_.getCooldowns().addCooldown(this, 200);
             	setShiftActive(stack, true);
             	setSavage(stack, ammo.is(LimbusItems.SAVAGE_TIGERMARK_ROUND.get()));
@@ -142,6 +143,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 	    Multimap<Attribute, AttributeModifier> map = super.getAttributeModifiers(slot, stack);
 		if(slot == EquipmentSlot.MAINHAND)
 		{
+    		builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(UUID.randomUUID(), "Weapon modifier", 2, AttributeModifier.Operation.ADDITION));
 		    for(Entry<Attribute, AttributeModifier> entry : map.entries())
 		    {
 		    	if(entry.getKey() != Attributes.ATTACK_DAMAGE && entry.getKey() != Attributes.ATTACK_SPEED)
@@ -232,6 +234,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 		else if(isShiftActive(p_43278_))
 		{
 			//TODO armor ignore LivingEntity#getDamageAfterArmorAbsorb
+			p_43280_.playSound(LimbusSounds.SHIFT_ACTIVE.get());
 			if(isSavage(p_43278_))
 			{
 				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(5.0), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));

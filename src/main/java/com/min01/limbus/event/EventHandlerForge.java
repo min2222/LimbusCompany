@@ -47,8 +47,8 @@ public class EventHandlerForge
 			{
 				if(living.hasEffect(LimbusEffects.OVERHEAT.get()))
 				{
-					float percent = 75.0F + (LimbusUtil.getPercentage(living.getMaxHealth(), living.getMaxHealth() - living.getHealth()));
-					percent = Math.min(percent, 150.0F);
+					float percent = 50.0F + (LimbusUtil.getPercentage(living.getMaxHealth(), living.getMaxHealth() - living.getHealth()));
+					percent = Math.min(percent, 100.0F);
 					event.setAmount(event.getAmount() + LimbusUtil.percent(event.getAmount(), percent));
 				}
 			}
