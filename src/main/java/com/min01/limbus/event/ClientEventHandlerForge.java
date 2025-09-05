@@ -34,7 +34,7 @@ public class ClientEventHandlerForge
 			stack.scale(f, f, f);
 			stack.mulPose(Axis.YP.rotationDegrees(-camera.getYRot()));
 			stack.translate(0.0F, 1.4F, 0.0F);
-			LimbusClientUtil.drawQuad(stack, bufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(String.format("%s:textures/entity/unrelenting_spirit_aura%d.png", LimbusCompany.MODID, player.tickCount % 15)))), f, f + 0.5F, LightTexture.FULL_BRIGHT);
+			LimbusClientUtil.drawQuad(stack, bufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(String.format("%s:textures/entity/unrelenting_spirit_aura%d.png", LimbusCompany.MODID, player.tickCount % 15)))), f, f + 0.5F, 0.5F, LightTexture.FULL_BRIGHT);
 			stack.popPose();
 		}
 		else if(player.hasEffect(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get()))
@@ -44,7 +44,7 @@ public class ClientEventHandlerForge
 			stack.scale(f, f, f);
 			stack.mulPose(Axis.YP.rotationDegrees(-camera.getYRot()));
 			stack.translate(0.0F, 1.4F, 0.0F);
-			LimbusClientUtil.drawQuad(stack, bufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(String.format("%s:textures/entity/unrelenting_spirit_shin_aura%d.png", LimbusCompany.MODID, player.tickCount % 15)))), f, f + 0.5F, LightTexture.FULL_BRIGHT);
+			LimbusClientUtil.drawQuad(stack, bufferSource.getBuffer(RenderType.entityTranslucent(new ResourceLocation(String.format("%s:textures/entity/unrelenting_spirit_shin_aura%d.png", LimbusCompany.MODID, player.tickCount % 15)))), f, f + 0.5F, 0.5F, LightTexture.FULL_BRIGHT);
 			stack.popPose();
 		}
 	}

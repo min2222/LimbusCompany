@@ -13,7 +13,7 @@ public class LimbusClientUtil
 {
 	public static final Minecraft MC = Minecraft.getInstance();
 	
-    public static void drawQuad(PoseStack stack, VertexConsumer consumer, float size, float ySize, int packedLightIn) 
+    public static void drawQuad(PoseStack stack, VertexConsumer consumer, float size, float ySize, float alpha, int packedLightIn) 
     {
         float minU = 0;
         float minV = 0;
@@ -22,10 +22,10 @@ public class LimbusClientUtil
         PoseStack.Pose matrixstack$entry = stack.last();
         Matrix4f matrix4f = matrixstack$entry.pose();
         Matrix3f matrix3f = matrixstack$entry.normal();
-        drawVertex(matrix4f, matrix3f, consumer, size, ySize, 0, minU, minV, 1.0F, packedLightIn);
-        drawVertex(matrix4f, matrix3f, consumer, size, -ySize, 0, minU, maxV, 1.0F, packedLightIn);
-        drawVertex(matrix4f, matrix3f, consumer, -size, -ySize, 0, maxU, maxV, 1.0F, packedLightIn);
-        drawVertex(matrix4f, matrix3f, consumer, -size, ySize, 0, maxU, minV, 1.0F, packedLightIn);
+        drawVertex(matrix4f, matrix3f, consumer, size, ySize, 0, minU, minV, alpha, packedLightIn);
+        drawVertex(matrix4f, matrix3f, consumer, size, -ySize, 0, minU, maxV, alpha, packedLightIn);
+        drawVertex(matrix4f, matrix3f, consumer, -size, -ySize, 0, maxU, maxV, alpha, packedLightIn);
+        drawVertex(matrix4f, matrix3f, consumer, -size, ySize, 0, maxU, minV, alpha, packedLightIn);
     }
     
     public static void drawVertex(Matrix4f matrix, Matrix3f normals, VertexConsumer vertexBuilder, float offsetX, float offsetY, float offsetZ, float textureX, float textureY, float alpha, int packedLightIn)
