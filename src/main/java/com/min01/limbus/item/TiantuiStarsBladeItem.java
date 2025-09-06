@@ -127,17 +127,14 @@ public class TiantuiStarsBladeItem extends SwordItem
 	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0, false, true));
 	    	}
 		}
-		else
-		{
-	      	if(getConsumed(stack) >= 160 && getBuffLevel(stack) == 1)
-	    	{
-	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0, false, true));
-	    	}
-	      	if(getConsumed(stack) >= 160 + 160 && getBuffLevel(stack) == 2)
-	    	{
-	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0, false, true));
-	    	}
-		}
+      	if(getConsumed(stack) >= 160 && getBuffLevel(stack) == 1)
+      	{
+      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), -1, 0, false, true));
+      	}
+      	if(getConsumed(stack) >= 160 + 160 && getBuffLevel(stack) == 2)
+      	{
+      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), -1, 0, false, true));
+      	}
 	}
 	
 	@Override
