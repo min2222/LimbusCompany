@@ -91,14 +91,18 @@ public class TiantuiStarsBladeItem extends SwordItem
 	public void onInventoryTick(ItemStack stack, Level level, Player player, int slotIndex, int selectedIndex)
 	{
 		super.onInventoryTick(stack, level, player, slotIndex, selectedIndex);
+		if(getTickCount(stack) > 0)
+		{
+			setTickCount(stack, getTickCount(stack) - 1);
+		}
     	if(getConsumed(stack) >= 8 && getBuffLevel(stack) == 0)
     	{
-    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0, false, true));
     		setBuffLevel(stack, 1);
     	}
     	if(getConsumed(stack) >= 160 + 16 && getBuffLevel(stack) == 1)
     	{
-    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
+    		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0, false, true));
     		setBuffLevel(stack, 2);
     	}
 		if(!player.getInventory().hasAnyMatching(AMMO.or(AMMO2)))
@@ -120,18 +124,18 @@ public class TiantuiStarsBladeItem extends SwordItem
 		{
 	      	if(getConsumed(stack) >= 80 && getBuffLevel(stack) == 1)
 	    	{
-	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0, false, true));
 	    	}
 		}
 		else
 		{
 	      	if(getConsumed(stack) >= 160 && getBuffLevel(stack) == 1)
 	    	{
-	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0));
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT.get(), 1800, 0, false, true));
 	    	}
 	      	if(getConsumed(stack) >= 160 + 160 && getBuffLevel(stack) == 2)
 	    	{
-	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0));
+	      		player.addEffect(new MobEffectInstance(LimbusEffects.UNRELENTING_SPIRIT_SHIN.get(), 2400, 0, false, true));
 	    	}
 		}
 	}
@@ -230,6 +234,8 @@ public class TiantuiStarsBladeItem extends SwordItem
 			setActive(p_43278_, false);
 			setSavage(p_43278_, false);
 			setUsed(p_43278_, true);
+			setTickCount(p_43278_, 10);
+			setEffectType(p_43278_, "Active");
 		}
 		else if(isShiftActive(p_43278_))
 		{
@@ -237,6 +243,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 			p_43280_.playSound(LimbusSounds.SHIFT_ACTIVE.get());
 			if(isSavage(p_43278_))
 			{
+				setEffectType(p_43278_, "ShiftActiveSavage");
 				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(5.0), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
 				list.forEach(t -> 
 				{
@@ -248,6 +255,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 			}
 			else
 			{
+				setEffectType(p_43278_, "ShiftActive");
 				List<LivingEntity> list = p_43279_.level.getEntitiesOfClass(LivingEntity.class, p_43280_.getBoundingBox().inflate(2.5F), t -> t != p_43280_ && !t.isAlliedTo(p_43280_));
 				list.forEach(t -> 
 				{
@@ -257,6 +265,7 @@ public class TiantuiStarsBladeItem extends SwordItem
 					p_43280_.doHurtTarget(t);
 				});
 			}
+			setTickCount(p_43278_, 10);
 			setShiftActive(p_43278_, false);
 			setSavage(p_43278_, false);
 			setUsed(p_43278_, true);
@@ -288,6 +297,30 @@ public class TiantuiStarsBladeItem extends SwordItem
 	{
 		return newStack.getItem() != this;
 	}
+	
+    public static String getEffectType(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getString("EffectType") : "";
+    }
+
+    public static void setEffectType(ItemStack stack, String type)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putString("EffectType", type);
+    }
+	
+    public static int getTickCount(ItemStack stack)
+    {
+        CompoundTag tag = stack.getTag();
+        return tag != null ? tag.getInt("TickCount") : 0;
+    }
+
+    public static void setTickCount(ItemStack stack, int tickCount)
+    {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("TickCount", tickCount);
+    }
 	
     public static int getBuffLevel(ItemStack stack)
     {

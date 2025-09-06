@@ -99,9 +99,9 @@ public class ModelTiantuiStarsBlade extends Model
 	
 	public void setupAnim(ItemStack stack)
 	{
-		this.Slash.visible = TiantuiStarsBladeItem.isShiftActive(stack) && TiantuiStarsBladeItem.isSavage(stack);
-		this.Slash2.visible = TiantuiStarsBladeItem.isShiftActive(stack) && !TiantuiStarsBladeItem.isSavage(stack);
-		this.flameParts.forEach(t -> t.visible = TiantuiStarsBladeItem.isActive(stack));
+		this.Slash.visible = TiantuiStarsBladeItem.getEffectType(stack).equals("ShiftActiveSavage") && TiantuiStarsBladeItem.getTickCount(stack) > 0;
+		this.Slash2.visible = TiantuiStarsBladeItem.getEffectType(stack).equals("ShiftActive") && TiantuiStarsBladeItem.getTickCount(stack) > 0;
+		this.flameParts.forEach(t -> t.visible = TiantuiStarsBladeItem.getEffectType(stack).equals("Active") && TiantuiStarsBladeItem.getTickCount(stack) > 0);
 	}
 
 	@Override
