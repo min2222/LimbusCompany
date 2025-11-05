@@ -1,6 +1,7 @@
 {
 	"itemGroup.limbuscompany": "림버스 컴퍼니",
-	"entity.limbuscompany.petrified": "뇌횡",
+	"entity.limbuscompany.lei_heng": "뇌횡",
+	"item.limbuscompany.logo": "로고",
 	"item.limbuscompany.tigermark_round": "호표탄",
 	"item.limbuscompany.savage_tigermark_round": "맹호표탄",
 	"item.limbuscompany.tiantui_stars_blade": "천퇴성도 [天退星刀]",
